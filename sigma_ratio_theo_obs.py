@@ -78,7 +78,6 @@ for file_name in os.listdir(file_dir):
     print("processing graph")
 
     # create cdf for fluxes
-    datum.sort(key=lambda tup: tup[1])
 
     length = len(flux_vals) - 1
     stdev_rat = []
@@ -89,6 +88,10 @@ for file_name in os.listdir(file_dir):
 
         data = datum[n]
         flux = data[0]
+
+        # Assert statement
+        if flux_vals[n] != flux:
+            print("OH NO!")
         mag = data[2]
         theo_err_2 = get_err(flux)
         theo_err = get_err_mag(mag)
@@ -118,7 +121,7 @@ for file_name in os.listdir(file_dir):
     plt.xlabel("num obs")
     plt.ylabel("log [theoretical err / experimental]")
     plt.title("Num Obs vs Error Rat")
-    red = "Ratio of theoretical microlensed sigma to real sigma" + str(mic_amt)
+    red = "Ratio of theoretical microlensed sigma to real sigma"
     red_patch = mpatches.Patch(color="red", label=red)
     plt.legend(
         bbox_transform=plt.gcf().transFigure, bbox_to_anchor=(1, 1), handles=[red_patch]
